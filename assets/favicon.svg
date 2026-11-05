@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vellore One Way Cabs monogram">
+  <rect width="64" height="64" fill="#17191B"/>
+  <rect x="4.5" y="4.5" width="55" height="55" fill="none" stroke="#C6A36B" stroke-width="1"/>
+  <path d="M20 20l12 24 12-24" fill="none" stroke="#C6A36B" stroke-width="3" stroke-linecap="square"/>
+  <path d="M32 44v6" stroke="#F7F4EE" stroke-width="2"/>
+</svg>
