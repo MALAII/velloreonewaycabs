@@ -6,9 +6,10 @@
 const BUSINESS = {
   name: "Vellore One Way Cabs",
   domain: "https://velloreonewaycabs.com",
-  whatsappNumber: "", // <-- e.g. "919876543210" (country code + number, digits only)
-  phoneNumber: "",    // <-- e.g. "+91 98765 43210" (display + tel: link)
-  email: ""           // <-- e.g. "bookings@velloreonewaycabs.com"
+  whatsappNumber: "919042209448",
+  phoneNumber: "+91 90422 09448",
+  email: "dispatch@velloreonewaycabs.com",
+  address: "474/1, Kazhani Kaatu Street, Karugambathur, Vellore - 632013, Tamil Nadu"
 };
 
 /* Centralized Tariff Rates & Vehicle Specifications (Indicative Estimates) */
@@ -458,6 +459,29 @@ const TARIFF_CONFIG = {
         `Message: ${get("cmessage") || "—"}`
       ].join("\n");
 
+      if (BUSINESS.whatsappNumber) {
+        const encoded = encodeURIComponent(summary);
+        const url = `https://wa.me/${BUSINESS.whatsappNumber}?text=${encoded}`;
+        showStatus(
+          status,
+          `<strong>Opening WhatsApp with your enquiry.</strong> Review the message and press send to reach ${escapeHtml(BUSINESS.name)}. If WhatsApp does not open automatically, use the button below.`
+        );
+        const row = document.createElement("div");
+        row.className = "copy-row";
+        const link = document.createElement("a");
+        link.className = "btn btn--sm";
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "Open WhatsApp";
+        row.appendChild(link);
+        const copyRow = makeCopyRow(summary);
+        status.appendChild(row);
+        status.appendChild(copyRow);
+        window.open(url, "_blank", "noopener");
+        return;
+      }
+
       showStatus(
         status,
         `<strong>Thank you for contacting us.</strong> Our direct online inbox is currently being connected to our dispatch desk. We have prepared your enquiry summary below — copy it to share directly with our team for immediate booking assistance.`,
@@ -472,6 +496,16 @@ const TARIFF_CONFIG = {
   /* ------------------------------------------------------------------ */
   /* 11. Misc                                                            */
   /* ------------------------------------------------------------------ */
+  function initFloatCall() {
+    if (!BUSINESS.whatsappNumber) return;
+    $$(".float-call").forEach((el) => {
+      el.href = `https://wa.me/${BUSINESS.whatsappNumber}`;
+      el.target = "_blank";
+      el.rel = "noopener";
+      el.setAttribute("aria-label", "Contact Vellore One Way Cabs on WhatsApp");
+    });
+  }
+
   function initYear() {
     $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
   }
@@ -509,6 +543,7 @@ const TARIFF_CONFIG = {
     initBookingForm();
     initEnquiryPrefill();
     initContactForm();
+    initFloatCall();
     initYear();
     initDateMin();
     initSmoothAnchors();
