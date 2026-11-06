@@ -45,10 +45,10 @@
   --gold: #c6a36b;
   --gold-deep: #a9834a;
   --gold-soft: #dcc49b;
-  --ivory: #f7f4ee;
-  --beige: #e9e2d6;
+  --ivory: #f4efe6;
+  --beige: #e5ddd0;
   --white: #ffffff;
-  --muted: #777777;
+  --muted: #6e6b66;
   --muted-on-dark: #b9b5ad;
   --line: rgba(23, 25, 27, 0.14);
   --line-strong: rgba(23, 25, 27, 0.26);
@@ -180,12 +180,12 @@ em { font-style: italic; }
 .container--wide { max-width: 1440px; }
 .container--narrow { max-width: 880px; }
 
-.section { padding-block: var(--section-y); position: relative; }
+.section { padding-block: var(--section-y); position: relative; border-top: 1px solid var(--line); }
 .section--tight { padding-block: clamp(3rem, 5vw, 5rem); }
 .section--ivory { background: var(--ivory); }
 .section--beige { background: var(--beige); }
 .section--white { background: var(--white); }
-.section--ink { background: var(--ink); color: var(--ivory); }
+.section--ink { background: var(--ink); color: var(--ivory); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); }
 .section--ink h1, .section--ink h2, .section--ink h3, .section--ink h4 { color: var(--ivory); }
 .section--ink p { color: var(--muted-on-dark); }
 
@@ -1666,18 +1666,93 @@ body.nav-open .nav__toggle span {
 
 /* Contact */
 .contact-layout { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
-.contact-form-card { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--gold); padding: clamp(1.75rem, 3vw, 2.75rem); }
+.contact-form-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  box-shadow: 0 10px 30px -12px rgba(23, 25, 27, 0.08);
+}
 .contact-form-card h2 { font-size: clamp(1.75rem, 2.4vw, 2.25rem); }
-.contact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-.contact-list li { margin: 0; display: grid; grid-template-columns: 44px 1fr; gap: 1rem; padding: 1.35rem 0; border-bottom: 1px solid var(--line); }
-.contact-list li:first-child { padding-top: 0; }
-.contact-list__icon { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(198, 163, 107, 0.5); color: var(--gold-deep); }
+
+.contact-details-card {
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--ink);
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  box-shadow: 0 10px 30px -12px rgba(23, 25, 27, 0.06);
+}
+.contact-details-card h2 { font-size: clamp(1.75rem, 2.4vw, 2.25rem); }
+
+.contact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.contact-list li {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--white);
+  border: 1px solid rgba(23, 25, 27, 0.09);
+  box-shadow: 0 2px 6px rgba(23, 25, 27, 0.03);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.contact-list li:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 6px 16px rgba(23, 25, 27, 0.07);
+}
+.contact-list__icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(198, 163, 107, 0.5);
+  background: rgba(198, 163, 107, 0.08);
+  color: var(--gold-deep);
+  flex-shrink: 0;
+}
 .contact-list__icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-.contact-list dt, .contact-label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
-.contact-list dd, .contact-value { margin: 0; font-size: 1rem; color: var(--ink); }
+.contact-list__content { flex: 1; min-width: 0; }
+.contact-list dt, .contact-label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.contact-list dd, .contact-value { margin: 0; font-size: 0.9875rem; color: var(--ink); font-weight: 500; word-break: break-word; }
 .contact-value a { color: var(--ink); text-decoration: none; transition: color 0.2s var(--ease); }
 .contact-value a:hover { color: var(--gold); text-decoration: underline; }
 .contact-value--pending { color: var(--muted); font-style: italic; }
+
+.contact-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(198, 163, 107, 0.14);
+  color: var(--ink);
+  border: 1px solid rgba(198, 163, 107, 0.4);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.2s var(--ease);
+}
+.contact-pill-btn:hover {
+  background: var(--gold);
+  color: var(--white);
+  border-color: var(--gold);
+  text-decoration: none;
+  transform: scale(1.04);
+}
+.contact-pill-btn--wa {
+  background: rgba(37, 211, 102, 0.12);
+  color: #128c7e;
+  border-color: rgba(37, 211, 102, 0.35);
+}
+.contact-pill-btn--wa:hover {
+  background: #25d366;
+  color: var(--white);
+  border-color: #25d366;
+}
 
 /* Google Map Location Section — matching site styling theme */
 .map-card-wrapper {
@@ -1985,7 +2060,7 @@ body.nav-open .nav__toggle span {
   .process { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
   .process::before { display: none; }
   .coverage-layout { grid-template-columns: 1fr; }
-  .contact-layout { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; gap: 2.75rem; }
   .service-detail { grid-template-columns: 1fr; gap: 2rem; }
   .service-detail:nth-child(even) .service-detail__media { order: 0; }
   .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2034,7 +2109,160 @@ body.nav-open .nav__toggle span {
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius); }
   .tariff-table { min-width: 480px; }
   .tariff-table th, .tariff-table td { padding: 0.8rem 0.65rem; font-size: 0.875rem; }
-  .contact-form-card { padding: 1.35rem 1.1rem; }
+  /* Mobile Section Differentiation & Executive Luxury Rhythm */
+  .section {
+    border-top: 1px solid rgba(198, 163, 107, 0.4);
+    position: relative;
+  }
+  .section::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: var(--gutter);
+    width: 52px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 1px;
+  }
+  .section--ink {
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+  }
+  .section--ink::before {
+    display: none;
+  }
+  .cta-band {
+    border-top: 3px solid var(--gold);
+  }
+  .site-footer {
+    border-top: 3px solid var(--gold);
+  }
+
+  /* Distinct Section Headers & Luxury Eyebrow Badges on Mobile */
+  .section-head {
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(198, 163, 107, 0.22);
+  }
+  .section--ink .section-head {
+    border-bottom: 1px solid rgba(198, 163, 107, 0.28);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.32rem 0.85rem;
+    background: rgba(198, 163, 107, 0.12);
+    border: 1px solid rgba(198, 163, 107, 0.35);
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 0.75rem;
+  }
+  .section--ink .eyebrow {
+    background: rgba(198, 163, 107, 0.16);
+    border-color: rgba(198, 163, 107, 0.45);
+    color: #e5c796;
+  }
+
+  /* Mobile Card Enclosure & Visual Rhythm */
+  .service-card {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-top: 3px solid var(--gold);
+    box-shadow: 0 8px 24px -10px rgba(23, 25, 27, 0.08);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.25rem;
+    margin-bottom: 0.85rem;
+  }
+  .vehicle, .vehicle-tariff {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-top: 3px solid var(--gold);
+    box-shadow: 0 8px 24px -10px rgba(23, 25, 27, 0.08);
+    border-radius: var(--radius);
+    margin-bottom: 1.15rem;
+  }
+  .step {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-left: 4px solid var(--gold);
+    padding: 1.35rem 1.25rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px -6px rgba(23, 25, 27, 0.05);
+    margin-bottom: 0.85rem;
+  }
+  .route {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-left: 3px solid var(--gold);
+    padding: 1.2rem 1.15rem;
+    border-radius: var(--radius);
+    box-shadow: 0 3px 12px -5px rgba(23, 25, 27, 0.04);
+    margin-bottom: 0.75rem;
+  }
+  .testimonial {
+    background: var(--white);
+    border: 1px solid rgba(198, 163, 107, 0.35);
+    border-top: 3px solid var(--gold);
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px -8px rgba(23, 25, 27, 0.06);
+    margin-bottom: 0.85rem;
+  }
+  .benefit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(198, 163, 107, 0.28);
+    border-top: 2px solid var(--gold);
+    padding: 1.35rem 1.15rem !important;
+    border-radius: var(--radius);
+    margin-bottom: 0.85rem;
+  }
+  .faq__item {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-radius: var(--radius);
+    padding-inline: 1.15rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 3px 10px -4px rgba(23, 25, 27, 0.04);
+  }
+  .service-detail {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-top: 3px solid var(--gold);
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.75rem;
+    box-shadow: 0 8px 24px -10px rgba(23, 25, 27, 0.07);
+  }
+  .value-card {
+    background: var(--white);
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    border-top: 3px solid var(--gold);
+    padding: 1.35rem 1.15rem;
+    border-radius: var(--radius);
+    margin-bottom: 0.85rem;
+    box-shadow: 0 4px 16px -6px rgba(23, 25, 27, 0.05);
+  }
+
+  /* Contact Cards on Mobile */
+  .contact-layout {
+    gap: 2rem;
+  }
+  .contact-form-card {
+    padding: 1.35rem 1.15rem;
+    border-radius: var(--radius);
+  }
+  .contact-details-card {
+    padding: 1.35rem 1.15rem;
+    border-radius: var(--radius);
+  }
+  .contact-list li {
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius);
+  }
   .vehicle-tariff__body, .vehicle__body { padding: 1.35rem; }
 }
 

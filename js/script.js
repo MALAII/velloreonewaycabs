@@ -392,7 +392,7 @@ const TARIFF_CONFIG = {
       const copyRow = makeCopyRow(message);
       status.appendChild(row);
       status.appendChild(copyRow);
-      window.open(url, "_blank", "noopener");
+      window.location.href = url;
     });
   }
 
@@ -478,7 +478,7 @@ const TARIFF_CONFIG = {
         const copyRow = makeCopyRow(summary);
         status.appendChild(row);
         status.appendChild(copyRow);
-        window.open(url, "_blank", "noopener");
+        window.location.href = url;
         return;
       }
 
@@ -499,7 +499,7 @@ const TARIFF_CONFIG = {
   function initFloatCall() {
     if (!BUSINESS.whatsappNumber) return;
     $$(".float-call").forEach((el) => {
-      el.href = `https://wa.me/${BUSINESS.whatsappNumber}`;
+      el.href = `https://wa.me/${BUSINESS.whatsappNumber}?text=${encodeURIComponent("Hello Vellore One Way Cabs, I would like to book a cab.")}`;
       el.target = "_blank";
       el.rel = "noopener";
       el.setAttribute("aria-label", "Contact Vellore One Way Cabs on WhatsApp");
@@ -531,6 +531,59 @@ const TARIFF_CONFIG = {
   }
 
   /* ------------------------------------------------------------------ */
+  /* 12. Direct WhatsApp booking navigation                              */
+  /* ------------------------------------------------------------------ */
+  function initBookingLinks() {
+    if (!BUSINESS.whatsappNumber) return;
+    const baseWa = `https://wa.me/${BUSINESS.whatsappNumber}`;
+    $$('a[href*="#booking"], a[href*="index.html#booking"]').forEach((a) => {
+      if (
+        a.classList.contains("btn") ||
+        a.classList.contains("nav__drawer-link") ||
+        a.classList.contains("nav__cta") ||
+        a.classList.contains("float-call") ||
+        a.classList.contains("link-arrow")
+      ) {
+        const text = (a.textContent || "").trim();
+        let msg = `Hello ${BUSINESS.name}, I would like to book a cab.`;
+        if (/sedan/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book a Sedan cab.`;
+        else if (/suv/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book an SUV cab.`;
+        else if (/premium/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book a Premium cab.`;
+        else if (/one\s*way/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to enquire about a One Way Drop taxi.`;
+        else if (/round\s*trip/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to enquire about a Round Trip taxi.`;
+        else if (/local/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book a Local cab service in Vellore.`;
+        else if (/outstation/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book an Outstation cab from Vellore.`;
+        else if (/airport/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book an Airport Transfer cab.`;
+        else if (/family|group/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to enquire about Family and Group travel.`;
+        else if (/ride/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to book a cab ride.`;
+        else if (/quote|fare/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to get a fare quote.`;
+        else if (/plan/i.test(text)) msg = `Hello ${BUSINESS.name}, I would like to plan a cab journey.`;
+
+        const targetUrl = `${baseWa}?text=${encodeURIComponent(msg)}`;
+        a.href = targetUrl;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      }
+    });
+
+    $$("[data-prefill-vehicle]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const vehicle = btn.dataset.prefillVehicle || "Cab";
+        const drop = btn.dataset.prefillDrop || "";
+        let msg = `Hello ${BUSINESS.name}, I would like to enquire about booking a ${vehicle}.`;
+        if (drop) {
+          msg = `Hello ${BUSINESS.name}, I would like to enquire about booking a ${vehicle} from Vellore to ${drop}.`;
+        }
+        const url = `${baseWa}?text=${encodeURIComponent(msg)}`;
+        window.open(url, "_blank", "noopener");
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Boot                                                                */
   /* ------------------------------------------------------------------ */
   document.addEventListener("DOMContentLoaded", () => {
@@ -547,5 +600,6 @@ const TARIFF_CONFIG = {
     initYear();
     initDateMin();
     initSmoothAnchors();
+    initBookingLinks();
   });
 })();
